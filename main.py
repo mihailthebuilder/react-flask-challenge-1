@@ -4,29 +4,25 @@ RD_MAP = {"M": 1000, "D": 500, "C": 100, "L": 50, "X": 10, "V": 5, "I": 1}
 
 
 def roman_to_decimal(roman):
-
     decimal = 0
 
-    roman_len = len(roman)
-    invalid_str_message = "Please enter a valid Roman numeral string"
+    while len(roman) > 0:
+        char_0_value = RD_MAP[roman[0]]
 
-    for i, char_1 in enumerate(roman):
+        if len(roman) >= 2:
+            char_1_value = RD_MAP[roman[1]]
 
-        try:
-            char_1_value = RD_MAP[char_1]
-        except KeyError:
-            return invalid_str_message
+            if char_1_value > char_0_value:
+                decimal += char_1_value - char_0_value
+                roman = roman[2:]
+                continue
 
-        if i >= roman_len - 1:
-            decimal += char_1_value
-            break
+        decimal += char_0_value
+        roman = roman[1:]
 
-        try:
-            char_2_value = RD_MAP[roman[i + 1]]
-        except KeyError:
-            return invalid_str_message
+    return decimal
 
 
 if __name__ == "__main__":
     roman = input("Enter the Roman numeral string: ")
-    print(roman_to_decimal(roman))
+    print("The decimal number is: " + str(roman_to_decimal(roman)))
